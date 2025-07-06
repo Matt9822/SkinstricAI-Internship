@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -9,8 +9,31 @@ const Info = () => {
   const [name, setName] = useState(null);
   const [location, setLocation] = useState(null);
   const [success, setSuccess] = useState(false);
-
-  useGSAP(() => {});
+  const containerRef = useRef(null);
+  const dotOneRef = useRef(null);
+  const dotTwoRef = useRef(null);
+  const dotThreeRef = useRef(null);
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({ repeat: -1 });
+      tl.to(dotOneRef.current, {
+        y: 10,
+        duration: 1,
+        ease: "power2.inOut",
+      })
+        .to(dotTwoRef.current, {
+          y: 10,
+          duration: 1,
+          ease: "power2.inOut",
+        })
+        .to(dotThreeRef.current, {
+          y: 10,
+          duration: 1,
+          ease: "power2.inOut",
+        });
+    },
+    { scope: containerRef }
+  );
 
   const handleNameSubmit = (e) => {
     e.preventDefault();
@@ -46,11 +69,11 @@ const Info = () => {
           response = await auth.json();
         if (response.success === true) {
           setTimeout(() => {
-            setSuccess(true);
+            setSuccess(false);
           }, 2000);
         }
       } catch (err) {
-        console.error("could not fetch info")
+        console.error("could not fetch info");
       } finally {
         console.log(success);
       }
@@ -58,23 +81,34 @@ const Info = () => {
     authorize();
     if (success) {
       return (
-        <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
-          <div className="flex-col items-center gap-4 h-[72px]">
-            <div>
-
-            <h2 className="text-2xl font-normal text-[#1A1B1C]">Thank you!</h2>
-            </div>
-            <div>
-
-            <p>Proceed for the next step</p>
+        <div>
+          <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
+            <div className="flex-col items-center gap-4 h-[72px]">
+              <div>
+                <h2 className="text-2xl font-normal text-[#1A1B1C] text-center">
+                  Thank you!
+                  <br />
+                  <span className="text-lg">Proceed for the next step</span>
+                </h2>
+              </div>
             </div>
           </div>
-          <div className="absolute">
-            <Link rel="stylesheet" href="/analysis">
-              <button>
-                <p className="uppercase">proceed</p>
-                <Image width={56} height={56} src="/button.svg" alt="Button" />
-              </button>
+          <div className="absolute right-[10%] bottom-[9.4%] group">
+            <Link
+              rel="stylesheet"
+              href="/analysis"
+              className="flex items-center"
+            >
+              <p className="pr-3 font-[500] text-[22px] group-hover:text-[25px] ease-in-out duration-500 underline">
+                Proceed
+              </p>
+              <Image
+                width={70}
+                height={70}
+                src="/button.svg"
+                alt="Button"
+                className="group-hover:w-[75] ease-in-out duration-400"
+              />
             </Link>
           </div>
         </div>
@@ -83,6 +117,23 @@ const Info = () => {
       return (
         <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
           <p>Processing submission</p>
+          <div
+            ref={containerRef}
+            className="flex pt-5 items-center justify-center"
+          >
+            <div
+              ref={dotOneRef}
+              className="dot w-3 h-3 rounded-full bg-gray-200 mr-5 transform"
+            />
+            <div
+              ref={dotTwoRef}
+              className="dot w-3 h-3 rounded-full bg-gray-200 mr-5 transform"
+            />
+            <div
+              ref={dotThreeRef}
+              className="dot w-3 h-3 rounded-full bg-gray-200"
+            />
+          </div>
         </div>
       );
     }
