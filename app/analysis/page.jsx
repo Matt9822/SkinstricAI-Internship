@@ -1,9 +1,10 @@
-import React from 'react'
+"use client"
 
-export default function analysis () {
+export default function analysis() {
+  console.log(localStorage.getItem("image"))
   return (
-    <div>page</div>
-  )
+    <div className="flex justify-center items-center">
+      
+    </div>
+  );
 }
-
-

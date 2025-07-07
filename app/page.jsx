@@ -45,7 +45,7 @@ export default function Home() {
     };
   }, []);
   return (
-    <div className="">
+    <div>
       <main className="flex items-center justify-between">
         <div className="flex">
           <div ref={aiRef} className="absolute top-[51%] left-[30px]">

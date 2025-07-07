@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -15,24 +15,70 @@ const Info = () => {
   const dotThreeRef = useRef(null);
   useGSAP(
     () => {
+      if (!name || !location) return;
+
       const tl = gsap.timeline({ repeat: -1 });
+
       tl.to(dotOneRef.current, {
-        y: 10,
-        duration: 1,
-        ease: "power2.inOut",
+        y: -15,
+        duration: 0.6,
+        ease: "power2.out",
       })
-        .to(dotTwoRef.current, {
-          y: 10,
-          duration: 1,
-          ease: "power2.inOut",
-        })
-        .to(dotThreeRef.current, {
-          y: 10,
-          duration: 1,
-          ease: "power2.inOut",
-        });
+
+        .to(
+          dotOneRef.current,
+          {
+            y: 0,
+            duration: 0.6,
+            ease: "power2.in",
+          },
+          "-=0.3"
+        )
+
+        .to(
+          dotTwoRef.current,
+          {
+            y: -15,
+            duration: 0.6,
+            ease: "power2.out",
+          },
+          "-=0.8"
+        )
+
+        .to(
+          dotTwoRef.current,
+          {
+            y: 0,
+            duration: 0.6,
+            ease: "power2.in",
+          },
+          "-=0.3"
+        )
+
+        .to(
+          dotThreeRef.current,
+          {
+            y: -15,
+            duration: 0.6,
+            ease: "power2.out",
+          },
+          "-=0.8"
+        )
+
+        .to(
+          dotThreeRef.current,
+          {
+            y: 0,
+            duration: 0.6,
+            ease: "power2.in",
+          },
+          "-=0.3"
+        );
+
+      return () => tl.kill();
     },
-    { scope: containerRef }
+
+    { scope: containerRef, dependencies: [name, location] }
   );
 
   const handleNameSubmit = (e) => {
@@ -69,14 +115,14 @@ const Info = () => {
           response = await auth.json();
         if (response.success === true) {
           setTimeout(() => {
-            setSuccess(false);
-          }, 2000);
+            //This is just here to show off the loading state to you
+            //and would not be here if this was production
+            setSuccess(true);
+          }, 2900);
         }
       } catch (err) {
         console.error("could not fetch info");
-      } finally {
-        console.log(success);
-      }
+      } 
     };
     authorize();
     if (success) {
@@ -96,7 +142,7 @@ const Info = () => {
           <div className="absolute right-[10%] bottom-[9.4%] group">
             <Link
               rel="stylesheet"
-              href="/analysis"
+              href="/image"
               className="flex items-center"
             >
               <p className="pr-3 font-[500] text-[22px] group-hover:text-[25px] ease-in-out duration-500 underline">
