@@ -125,6 +125,7 @@ export default function analysis() {
     const reader = new FileReader();
 
     reader.onload = async (event) => {
+      setLoading(true);
       try {
         const response = await fetch(
           "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
@@ -138,23 +139,34 @@ export default function analysis() {
         );
 
         const data = await response.json();
-        console.log(data.data);
-        localStorage.setItem("image", data.data);
+        localStorage.setItem("image", JSON.stringify(data));
 
         if (data.success === true) {
-          setSuccess(true);
+          setTimeout(() => {
+            setSuccess(true);
+          }, 2000)
         }
       } catch (error) {
         console.error("Error uploading file:", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     reader.readAsDataURL(file);
   };
+
   if (success) {
-    window.location.href = '/analysis'
+    window.location.href = "/analysis";
+  }  
+  
+  if (loading) {
+    return (
+    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="text-lg  uppercase">Preparing your analysis...</div>
+      <div className="fixed z-10 rotate-45 border-2 border-dashed border-gray-600 h-[250] w-[250]" />
+      <div className="fixed rotate-45 border-1 border-dashed border-gray-400 h-[275] w-[275]" />
+      <div className="fixed rotate-45 border-1 border-dashed border-gray-200 h-[300] w-[300]" />
+    </div>
+    )
   } else {
     return (
       <div className="flex items-center justify-between h-[93vh] max-[900]:flex-col">
