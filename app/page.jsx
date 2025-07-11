@@ -8,31 +8,51 @@ import { useRef } from "react";
 export default function Home() {
   const headerRef = useRef(null);
   const spanRef = useRef(null);
-  const testRef = useRef(null)
-  const shadowRef = useRef(null)
-  const aiRef = useRef(null)
+  const testRef = useRef(null);
+  const shadowRef = useRef(null);
+  const aiRef = useRef(null);
   const boxRef = useRef(null);
 
   useGSAP(() => {
     const tl = gsap.timeline({ paused: true });
     tl.to(headerRef.current, {
       x: "-34%",
-      duration: 0.7
-    }).to(spanRef.current, {
-      x: "-14%",
-      duration: 0.7
-    }, "<+=0").to(shadowRef.current, {
-      display: "block",
       duration: 0.7,
-      right: "-500"
-    }, "<+=0").to(aiRef.current, {
-      opacity: 0,
-      duration: 0.5
-    }, "<+=0").to(testRef.current, {
-      fontSize: 15,
-      x: "-30%",
-      duration: 0.7
-    }, "<+=0")
+    })
+      .to(
+        spanRef.current,
+        {
+          x: "-14%",
+          duration: 0.7,
+        },
+        "<+=0"
+      )
+      .to(
+        shadowRef.current,
+        {
+          display: "block",
+          duration: 0.7,
+          right: "-500",
+        },
+        "<+=0"
+      )
+      .to(
+        aiRef.current,
+        {
+          opacity: 0,
+          duration: 0.5,
+        },
+        "<+=0"
+      )
+      .to(
+        testRef.current,
+        {
+          fontSize: 15,
+          x: "-30%",
+          duration: 0.7,
+        },
+        "<+=0"
+      );
     if (boxRef.current) {
       boxRef.current.addEventListener("mouseenter", () => tl.play());
       boxRef.current.addEventListener("mouseleave", () => tl.reverse());
@@ -46,10 +66,39 @@ export default function Home() {
   }, []);
   return (
     <div>
+      <div className="flex justify-between items-center w-full h-[64px]">
+        <div className="flex mx-4">
+          <p className="text-[14px]/[16px] font-[600] tracking-[-2%] py-2 px-4 mr-2">
+            SKINSTRIC
+          </p>
+          <div className="flex justify-center items-center">
+            <Image
+              src="/rectangleL.svg"
+              height={17}
+              width={4}
+              alt="rectangle"
+            />
+            <p className="font-semibold text-[#1A1B1C] text-[14px]/[16px] tracking-[-2%] opacity-60 px-2">
+              INTRO
+            </p>
+            <Image
+              src="/rectangleR.svg"
+              height={17}
+              width={4}
+              alt="rectangle"
+            />
+          </div>
+        </div>
+        <div className="mx-4">
+          <button className="bg-[#1A1B1C] text-white py-2 px-4 text-[14px]/[16px]">
+            Enter Code
+          </button>
+        </div>
+      </div>
       <main className="flex items-center justify-between">
         <div className="flex">
           <div ref={aiRef} className="absolute top-[51%] left-[30px]">
-          <div className="fixed w-[420px] h-[420px] rotate-45 -translate-x-1/2 left-[2px] top-[297px] cursor-pointer z-1 border-2 border-dashed max-[1150]:hidden" />
+            <div className="fixed w-[420px] h-[420px] rotate-45 -translate-x-1/2 left-[2px] top-[297px] cursor-pointer z-1 border-2 border-dashed max-[1150]:hidden" />
             <button className="flex items-center">
               <Image
                 src="/button.svg"
@@ -117,10 +166,13 @@ export default function Home() {
               className={`fixed border-gray-500 w-[420px] h-[420px] cursor-pointer z-1 border-2 border-dashed max-[1150]:hidden`}
             ></div>
           </Link>
-          <div ref={shadowRef} className="fixed z-0 rotate-45 border-gray-300 w-[500px] h-[500px] border-2 border-dashed -translate-x-1/2 -translate-y-1/2 right-[-555px] top-[507px] hidden"></div>
+          <div
+            ref={shadowRef}
+            className="fixed z-0 rotate-45 border-gray-300 w-[500px] h-[500px] border-2 border-dashed -translate-x-1/2 -translate-y-1/2 right-[-555px] top-[507px] hidden"
+          ></div>
           <div className="absolute top-[51%] right-[30px]">
             <button ref={testRef} className="flex items-center cursor-pointer">
-              <p  className="text-[14px]/[16px] pr-2 max-[1150px]:hidden">
+              <p className="text-[14px]/[16px] pr-2 max-[1150px]:hidden">
                 TAKE TEST
               </p>
               <Image

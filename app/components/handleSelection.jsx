@@ -12,6 +12,9 @@ const handleSelection = ({
   setAgeSelect,
   sexSelect,
   setSexSelect,
+  setRacePercent,
+  setAgePercent,
+  setSexPercent,
 }) => {
   if (setSelect === "race") {
     return (
@@ -25,7 +28,9 @@ const handleSelection = ({
             ? sortedRace.map((item, index) => (
                 <li
                   key={index}
-                  onClick={() => setRaceSelect(`${item[0]}`)}
+                  onClick={() => {
+                    setRaceSelect(item[0]), setRacePercent(Math.round(item[1] * 100));
+                  }}
                   className={`flex justify-between ${
                     raceSelect === item[0]
                       ? "bg-black text-white"
@@ -63,7 +68,9 @@ const handleSelection = ({
             ? sortedAge.map((item, index) => (
                 <li
                   key={index}
-                  onClick={() => setAgeSelect(`${item[0]}`)}
+                  onClick={() => {
+                    setAgeSelect(item[0]), setAgePercent(Math.round(item[1] * 100));
+                  }}
                   className={`flex justify-between items-center ${
                     ageSelect === item[0]
                       ? "bg-black text-white"
@@ -101,7 +108,9 @@ const handleSelection = ({
             ? sortedGender.map((item, index) => (
                 <li
                   key={index}
-                  onClick={() => setSexSelect(`${item[0]}`)}
+                  onClick={() => {
+                    setSexSelect(item[0]), setSexPercent(Math.round(item[1] * 100));
+                  }}
                   className={`flex justify-between ${
                     sexSelect === item[0]
                       ? "bg-black text-white"
